@@ -8,7 +8,7 @@
 
 ### 프로토콜
 
-웹 브라우저는 웹 페이지를 가져오기 위해 대부분의 웹 서버가 사용하는 [HTTP(hyper-text transfer protocol)](./HTTP.md)로 통신한다.
+웹 브라우저는 웹 페이지를 가져오기 위해 대부분의 웹 서버가 사용하는 [HTTP(hyper-text transfer protocol)](/network/HTTP.md)로 통신한다.
 
 ## 브라우저의 기본 구조
 
