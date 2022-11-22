@@ -121,7 +121,7 @@ Web sites and HTML5 Apps. It also documents Mozilla products, like Firefox OS."
 ```
 
 네이버 검색창에 "Mozilla Developer Network"를 검색한 결과에서 meta 및 title 을 요소를 확인한 것이다.
-![브라우저 검색결과](./browserSearchResult.png)
+![브라우저 검색결과](./images/browserSearchResult.png)
 
 위의 이미지를 보면 MDN 에서 작성한 description 이 검색결과에 나온것을 확인할 수가 있다.
 
