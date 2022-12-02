@@ -1,14 +1,17 @@
-export const CONSTANTS = {
-  KEYCODE: {
-    LEFT: 37,
-    UP: 38,
-    RIGHT: 39,
-    DOWN: 40,
-    SPACE: 32,
-  },
-  ROWS: 20,
-  COLS: 10,
-  selectors: {
-    mainCanvas: document.getElementById("main-canvas"),
-  },
+export const KEYCODE = {
+  37: "LEFT",
+  38: "UP",
+  39: "RIGHT",
+  40: "DOWN",
+  32: "SPACE",
 };
+export const ROWS = 20;
+export const COLS = 10;
+
+export const SELECTORS = {
+  mainCanvas: document.getElementById("main-canvas"),
+  nextCanvas: document.getElementById("next-canvas"),
+};
+
+export const NEXTROWS = 5;
+export const NEXTCOLS = 5;

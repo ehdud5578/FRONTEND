@@ -1,39 +1,41 @@
-/**
- * @param CONSTANTS 상수
- * @param functions 함수들
- */
-class mainTetris {
-  constructor(CONSTANTS, functions) {
-    this.KEYCODE = CONSTANTS.KEYCODE;
-    this.functions = functions;
-    this.canvas = CONSTANTS.selectors.mainCanvas;
-    this.ctx = this.canvas.getContext("2d");
-    this.WIDTH = this.canvas.clientWidth;
-    this.HEIGHT = this.canvas.clientHeight;
-    this.cellSize = 30;
+import defaultCanvas from "./defaultCanvas.js";
+
+export default class mainTetris extends defaultCanvas {
+  constructor(selector) {
+    super(selector);
+    this.cellSize = this.HEIGHT / window.CONSTANT.ROWS;
+    this.ROWS = window.CONSTANT.ROWS;
+    this.COLS = window.CONSTANT.COLS;
+    this.board = Array(this.ROWS)
+      .fill()
+      .map(() => Array(this.COLS).fill(0));
   }
 
   init() {
     this.drawGridLayout();
+    console.table(this.board);
   }
 
-  drawGridLayout() {
-    this.ctx.lineWidth = 0.3;
-    for (let i = 0; i < this.WIDTH / this.cellSize; i++) {
-      this.drawLine(this.cellSize * i, 0, this.cellSize * i, this.HEIGHT);
-    }
-    for (let i = 0; i <= this.HEIGHT / this.cellSize; i++) {
-      this.drawLine(0, this.cellSize * i, this.WIDTH, this.cellSize * i);
-    }
+  valid(shape, location) {
+    shape.every((element, i) => {
+      element.every((item, j) => {
+        debugger;
+        if (item > 0) {
+          const nextY = location.y + i;
+          const nextX = location.x + j;
+          if (!this.isArrange(nextY, nextX)) {
+            debugger;
+            return false;
+          }
+        }
+      });
+    });
+    return true;
   }
 
-  drawLine(startLeft, startTop, endLeft, endTop) {
-    this.ctx.beginPath();
-    this.ctx.moveTo(startLeft, startTop);
-    this.ctx.lineTo(endLeft, endTop);
-    this.ctx.stroke();
-    this.ctx.closePath();
+  isArrange(y, x) {
+    if (x >= 0 && x < this.COLS && y >= 0 && y < this.ROWS) {
+      return true;
+    }
   }
 }
-
-export default mainTetris;
