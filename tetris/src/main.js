@@ -10,9 +10,20 @@ window.CONSTANT = {
   NEXTROWS,
 };
 const moves = {
-  LEFT: (x, y) => ({ x: x - 1, y }),
-  RIGHT: (x, y) => ({ x: x + 1, y }),
-  DOWN: (x, y) => ({ x, y: y + 1 }),
+  LEFT: (piece) => {
+    piece.x -= 1;
+    return piece;
+  },
+  RIGHT: (piece) => {
+    piece.x += 1;
+    return piece;
+  },
+  DOWN: (piece) => {
+    piece.y += 1;
+    return piece;
+  },
+  UP: (piece) => piece.turn(),
+  SPACE: "dropDown",
 };
 window.F = functions;
 window.KEYCODE = KEYCODE;
@@ -22,13 +33,25 @@ const piece = new Piece(game.ctx, "type", game.cellSize);
 piece.draw();
 game.piece = piece;
 document.addEventListener("keydown", (event) => {
-  let piece = game.piece;
+  let piece = _.cloneDeep(game.piece);
   const movement = moves[KEYCODE[event.keyCode]];
-  const nextLocation = movement(piece.x, piece.y);
-  if (game.valid(piece.shape, nextLocation)) {
+  if (movement === "dropDown") {
+    let nextLocation = _.cloneDeep(game.piece);
+    while (game.valid(nextLocation)) {
+      piece.x = nextLocation.x;
+      piece.y = nextLocation.y;
+      nextLocation = moves.DOWN(nextLocation);
+    }
     game.ctx.clearRect(0, 0, game.WIDTH, game.HEIGHT);
-    piece.move(nextLocation);
+    game.piece.move(piece);
     game.drawGridLayout();
+  } else {
+    const nextLocation = movement(piece);
+    if (game.valid(nextLocation)) {
+      game.ctx.clearRect(0, 0, game.WIDTH, game.HEIGHT);
+      game.piece.move(nextLocation);
+      game.drawGridLayout();
+    }
   }
 });
 const next = new nextTetris(SELECTORS.nextCanvas);

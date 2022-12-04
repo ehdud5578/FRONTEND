@@ -13,29 +13,26 @@ export default class mainTetris extends defaultCanvas {
 
   init() {
     this.drawGridLayout();
-    console.table(this.board);
+
+    // console.table(this.board);
   }
 
-  valid(shape, location) {
-    shape.every((element, i) => {
-      element.every((item, j) => {
-        debugger;
-        if (item > 0) {
-          const nextY = location.y + i;
-          const nextX = location.x + j;
-          if (!this.isArrange(nextY, nextX)) {
-            debugger;
-            return false;
-          }
-        }
+  valid(piece) {
+    return piece.shape.every((element, i) => {
+      return element.every((item, j) => {
+        const nextY = piece.y + i;
+        const nextX = piece.x + j;
+        return this.isEmpty(item) || this.isArrange(nextY, nextX);
       });
     });
-    return true;
   }
 
   isArrange(y, x) {
     if (x >= 0 && x < this.COLS && y >= 0 && y < this.ROWS) {
       return true;
     }
+  }
+  isEmpty(item) {
+    return item <= 0;
   }
 }

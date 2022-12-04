@@ -54,7 +54,23 @@ export default class Piece {
   move(p) {
     this.x = p.x;
     this.y = p.y;
+    this.shape = p.shape;
     this.draw();
-    console.log(this.x, this.y);
+  }
+
+  turn() {
+    // 행렬을 변환한다. p는 Piece의 인스턴스이다.
+    for (let y = 0; y < this.shape.length; ++y) {
+      for (let x = 0; x < y; ++x) {
+        [this.shape[x][y], this.shape[y][x]] = [
+          this.shape[y][x],
+          this.shape[x][y],
+        ];
+      }
+    }
+
+    // 열 순서대로 뒤집는다.
+    this.shape.forEach((row) => row.reverse());
+    return this;
   }
 }
