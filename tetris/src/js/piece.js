@@ -10,21 +10,17 @@ export default class Piece {
    * @param type tetromino type
    * @param cellSize cellSize
    */
-  constructor(ctx, type, cellSize) {
+  constructor(ctx, tetromino, cellSize) {
     this.ctx = ctx;
-    this.spawn();
+    this.initPiece(tetromino);
     this.cellSize = cellSize;
   }
 
-  spawn() {
-    this.color = "blue";
-    this.shape = [
-      [2, 0, 0],
-      [2, 2, 2],
-      [0, 0, 0],
-    ];
+  initPiece({ color, shape }) {
+    this.color = color;
+    this.shape = shape;
 
-    // Starting position.
+    // 시작위치는 고정
     this.x = 4;
     this.y = 0;
   }
@@ -33,9 +29,6 @@ export default class Piece {
     this.ctx.fillStyle = this.color;
     this.shape.forEach((row, y) => {
       row.forEach((value, x) => {
-        // this.x, this.y는 shape의 상단 왼쪽 좌표이다
-        // shape 안에 있는 블록 좌표에 x, y를 더한다.
-        // 보드에서 블록의 좌표는 this.x + x가 된다.
         if (value > 0) {
           this.ctx.fillRect(
             this.x * this.cellSize + x * this.cellSize,

@@ -11,6 +11,8 @@ export const COLS = 10;
 export const SELECTORS = {
   mainCanvas: document.getElementById("main-canvas"),
   nextCanvas: document.getElementById("next-canvas"),
+  playButton: document.getElementById("playButton"),
+  resetButton: document.getElementById("resetButton"),
 };
 
 export const NEXTROWS = 5;

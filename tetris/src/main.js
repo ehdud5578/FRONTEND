@@ -29,9 +29,23 @@ window.F = functions;
 window.KEYCODE = KEYCODE;
 
 const game = new mainTetris(SELECTORS.mainCanvas);
-const piece = new Piece(game.ctx, "type", game.cellSize);
+const play = SELECTORS.playButton;
+
 piece.draw();
 game.piece = piece;
+function onGround() {
+  game.onGround();
+  createNewPiece();
+}
+
+function newGameStart() {
+  this.game = new mainTetris(SELECTORS.mainCanvas);
+}
+
+play.addEventListener("click", (e) => {
+  newGameStart();
+});
+
 document.addEventListener("keydown", (event) => {
   let piece = _.cloneDeep(game.piece);
   const movement = moves[KEYCODE[event.keyCode]];
@@ -42,19 +56,24 @@ document.addEventListener("keydown", (event) => {
       piece.y = nextLocation.y;
       nextLocation = moves.DOWN(nextLocation);
     }
-    game.ctx.clearRect(0, 0, game.WIDTH, game.HEIGHT);
-    game.piece.move(piece);
-    game.drawGridLayout();
+    game.move(piece);
+    onGround();
   } else {
     const nextLocation = movement(piece);
     if (game.valid(nextLocation)) {
-      game.ctx.clearRect(0, 0, game.WIDTH, game.HEIGHT);
-      game.piece.move(nextLocation);
-      game.drawGridLayout();
+      game.move(nextLocation);
     }
   }
 });
-const next = new nextTetris(SELECTORS.nextCanvas);
+function getRandomPiece() {
+  const randomNumber = Math.floor(Math.random() * 7);
+  return new Piece(game.ctx, tetrominoType[randomNumber], game.cellSize);
+}
+function createNewPiece() {
+  game.piece = getRandomPiece();
+}
 
+const next = new nextTetris(SELECTORS.nextCanvas);
+window.game = game;
 game.init();
 next.init();
