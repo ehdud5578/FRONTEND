@@ -1,30 +1,39 @@
 import defaultCanvas from "./defaultCanvas.js";
 
 const INIT_BOARD = () => ({ value: 0, color: "" });
+const EMPTY_ROW = (cols) => {
+  const row = [];
+  for (let i = 0; i < cols; i++) {
+    row.push(INIT_BOARD());
+  }
+  return row;
+};
+const SCORE = {
+  1: 100,
+  2: 200,
+  3: 400,
+  4: 800,
+};
 export default class mainTetris extends defaultCanvas {
   constructor(selector) {
     super(selector);
     this.cellSize = this.HEIGHT / window.CONSTANT.ROWS;
     this.ROWS = window.CONSTANT.ROWS;
     this.COLS = window.CONSTANT.COLS;
-    this.board = new Array(this.ROWS);
-    for (let i = 0; i < this.ROWS; i++) {
-      this.board[i] = new Array(this.COLS);
-      for (let j = 0; j < this.COLS; j++) {
-        this.board[i][j] = INIT_BOARD();
-      }
-    }
   }
 
   init() {
-    this.drawGridLayout();
-
-    // console.table(this.board);
-  }
-  draw() {
-    console.table(this.board);
     this.ctx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
-    this.drawGridLayout();
+    this.board = new Array(this.ROWS);
+    for (let i = 0; i < this.ROWS; i++) {
+      this.board[i] = EMPTY_ROW(this.COLS);
+    }
+    this.piece = null;
+  }
+
+  draw() {
+    // console.table(this.board);
+    this.ctx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
     this.board.forEach((rows, i) => {
       rows.forEach((value, j) => {
         if (value.value !== 0) {
@@ -33,6 +42,7 @@ export default class mainTetris extends defaultCanvas {
         }
       });
     });
+    this.drawGridLayout();
     this.piece.draw();
   }
 
@@ -67,7 +77,17 @@ export default class mainTetris extends defaultCanvas {
   isEmpty(item) {
     return item <= 0;
   }
-
+  deleteRow() {
+    let cntDeleteRow = 0;
+    this.board.forEach((element, y) => {
+      if (element.every((item) => item.value > 0)) {
+        // 값이 하나라도 0 이있다면 삭제 X
+        this.board.splice(y, 1);
+        this.board.unshift(EMPTY_ROW(this.COLS));
+        cntDeleteRow++;
+      }
+    });
+  }
   onGround() {
     const locationX = this.piece.x;
     const locationY = this.piece.y;
@@ -79,5 +99,22 @@ export default class mainTetris extends defaultCanvas {
         }
       });
     });
+    this.deleteRow();
+  }
+
+  isGameOver() {
+    if (this.piece.y === 0) {
+      return true;
+    } else {
+      false;
+    }
+  }
+
+  gameOver() {
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(30, 90, 240, 36);
+    this.ctx.font = "30px Arial";
+    this.ctx.fillStyle = "red";
+    this.ctx.fillText("GAME OVER", 54, 120);
   }
 }

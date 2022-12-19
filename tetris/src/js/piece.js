@@ -33,8 +33,8 @@ export default class Piece {
           this.ctx.fillRect(
             this.x * this.cellSize + x * this.cellSize,
             this.y * this.cellSize + y * this.cellSize,
-            30,
-            30
+            this.cellSize,
+            this.cellSize
           );
         }
       });
@@ -48,7 +48,6 @@ export default class Piece {
     this.x = p.x;
     this.y = p.y;
     this.shape = p.shape;
-    this.draw();
   }
 
   turn() {

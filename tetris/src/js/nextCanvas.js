@@ -11,4 +11,12 @@ export default class nextTetris extends defaultCanvas {
   init() {
     this.drawGridLayout();
   }
+
+  draw() {
+    this.ctx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
+    this.drawGridLayout();
+    this.piece.x = 1;
+    this.piece.y = 1;
+    this.piece.draw();
+  }
 }

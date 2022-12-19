@@ -13,6 +13,9 @@ export const SELECTORS = {
   nextCanvas: document.getElementById("next-canvas"),
   playButton: document.getElementById("playButton"),
   resetButton: document.getElementById("resetButton"),
+  score: document.getElementById("score"),
+  level: document.getElementById("level"),
+  line: document.getElementById("line"),
 };
 
 export const NEXTROWS = 5;

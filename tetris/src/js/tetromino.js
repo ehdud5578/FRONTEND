@@ -1,61 +1,54 @@
 export const tetrominoType = [
   {
-    color: red,
+    color: "red",
     shape: [
-      [0, 0, 2, 0],
-      [0, 0, 2, 0],
-      [0, 0, 2, 0],
-      [0, 0, 2, 0],
+      [0, 2, 0, 0],
+      [0, 2, 0, 0],
+      [0, 2, 0, 0],
+      [0, 2, 0, 0],
     ],
   },
-  ,
   {
-    color: orange,
+    color: "orange",
     shape: [
       [0, 2, 0],
       [0, 2, 0],
       [2, 2, 0],
     ],
   },
-  ,
   {
-    color: yellow,
+    color: "yellow",
     shape: [
       [0, 2, 0],
       [0, 2, 0],
       [0, 2, 2],
     ],
   },
-  ,
   {
-    color: green,
+    color: "green",
     shape: [
-      [2, 2, 0],
-      [2, 2, 0],
-      [0, 0, 0],
+      [2, 2],
+      [2, 2],
     ],
   },
-  ,
   {
-    color: blue,
+    color: "blue",
     shape: [
       [0, 2, 2],
       [2, 2, 0],
       [0, 0, 0],
     ],
   },
-  ,
   {
-    color: cyon,
+    color: "cyan",
     shape: [
       [2, 2, 2],
       [0, 2, 0],
       [0, 0, 0],
     ],
   },
-  ,
   {
-    color: purple,
+    color: "purple",
     shape: [
       [2, 2, 0],
       [0, 2, 2],
