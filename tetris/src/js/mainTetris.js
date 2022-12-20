@@ -1,5 +1,5 @@
 import defaultCanvas from "./defaultCanvas.js";
-
+import { POINTS, LINES_PER_LEVEL } from "./constant.js";
 const INIT_BOARD = () => ({ value: 0, color: "" });
 const EMPTY_ROW = (cols) => {
   const row = [];
@@ -87,6 +87,14 @@ export default class mainTetris extends defaultCanvas {
         cntDeleteRow++;
       }
     });
+    if (cntDeleteRow > 0) {
+      this.addScore(cntDeleteRow);
+      this.accountProxy.lines += cntDeleteRow;
+      if (this.accountProxy.lines > LINES_PER_LEVEL) {
+        this.accountProxy.level += 1;
+        this.accountProxy.lines = 0;
+      }
+    }
   }
   onGround() {
     const locationX = this.piece.x;
@@ -109,7 +117,9 @@ export default class mainTetris extends defaultCanvas {
       false;
     }
   }
-
+  addScore(rows) {
+    this.accountProxy.score += (this.accountProxy.level + 1) * POINTS[rows];
+  }
   gameOver() {
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(30, 90, 240, 36);

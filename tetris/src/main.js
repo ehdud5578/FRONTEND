@@ -1,7 +1,15 @@
 import { functions } from "./js/functions.js";
 import mainTetris from "./js/mainTetris.js";
 import Piece from "./js/piece.js";
-import { SELECTORS, KEYCODE, ROWS, COLS, NEXTROWS } from "./js/constant.js";
+import {
+  SELECTORS,
+  KEYCODE,
+  ROWS,
+  COLS,
+  NEXTROWS,
+  LEVEL,
+  POINTS,
+} from "./js/constant.js";
 import nextTetris from "./js/nextCanvas.js";
 import { tetrominoType } from "./js/tetromino.js";
 
@@ -61,9 +69,9 @@ game.accountProxy = accountProxy;
 
 reset.addEventListener("click", (e) => {
   reset.blur();
-  account.score = 0;
-  account.lines = 0;
-  account.level = 0;
+  accountProxy.score = 0;
+  accountProxy.lines = 0;
+  accountProxy.level = 0;
   clearInterval(timer);
   game.init();
 });
@@ -74,13 +82,14 @@ play.addEventListener("click", (e) => {
   createNewPiece();
 });
 
-function onGround() {
+function onGround(drop) {
   game.onGround();
   if (game.isGameOver()) {
     game.gameOver();
     clearInterval(timer);
   } else {
     createNewPiece();
+    accountProxy.score += POINTS[drop];
   }
 }
 function getNextPieceNum() {
@@ -103,7 +112,7 @@ function createNewPiece() {
   clearInterval(timer);
   timer = setInterval(() => {
     document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: "40" }));
-  }, 1000);
+  }, LEVEL[accountProxy.level]);
   game.draw();
 }
 
@@ -119,14 +128,14 @@ document.addEventListener("keydown", (event) => {
       nextLocation = moves.DOWN(nextLocation);
     }
     game.move(piece);
-    isGameOver = onGround();
+    isGameOver = onGround("HARD_DROP");
   } else {
     const nextLocation = movement(piece);
     if (game.valid(nextLocation)) {
       game.move(nextLocation);
     } else {
       if (movement.name === "DOWN") {
-        isGameOver = onGround();
+        isGameOver = onGround("SOFT_DROP");
       }
     }
   }
